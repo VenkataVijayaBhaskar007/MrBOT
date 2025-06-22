@@ -1,4 +1,3 @@
-
 import os
 import random
 import requests
@@ -13,8 +12,6 @@ CAT_FACT_API = "https://catfact.ninja/fact"
 QUOTE_API = "https://api.quotable.io/random"
 HISTORY_API = "https://history.muffinlabs.com/date"
 ANIME_API = "https://api.jikan.moe/v4/anime"
-ANIME_TOP_API = "https://api.jikan.moe/v4/top/anime"
-ANIME_RANDOM_API = "https://api.jikan.moe/v4/random/anime"
 
 # Fun responses
 LOVE_RESPONSES = [
@@ -60,13 +57,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         except:
             await update.message.reply_text("No cat facts right now 😿")
 
-    # elif "quote" in text:
-    # try:
-    #     r = requests.get(QUOTE_API).json()
-    #     await update.message.reply_text(f"📜 “{r.get('content')}” — {r.get('author')}")
-    # except:
-    #     await update.message.reply_text("Couldn't fetch a quote right now.")
-
+    elif "quote" in text:
+        try:
+            r = requests.get(QUOTE_API).json()
+            await update.message.reply_text(f"📜 “{r.get('content')}” — {r.get('author')}")
+        except:
+            await update.message.reply_text("Couldn't fetch a quote right now.")
 
     elif "history" in text or "today" in text:
         try:
@@ -88,9 +84,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 url = anime["url"]
                 synopsis = anime.get("synopsis", "No synopsis available.")
                 image = anime["images"]["jpg"]["image_url"]
-                reply = f"🎬 *{title}*
-{synopsis[:300]}...
-🔗 [More Info]({url})"
+                reply = f"""🎬 *{title}*\n{synopsis[:300]}...\n🔗 [More Info]({url})"""
                 await update.message.reply_photo(photo=image, caption=reply, parse_mode="Markdown")
             else:
                 await update.message.reply_text("Couldn't find any anime updates.")
@@ -99,7 +93,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("Anime update failed 😔")
 
     else:
-        await update.message.reply_text("Try typing:
+        await update.message.reply_text("""Try typing:
 - hi
 - fact
 - cat
@@ -107,12 +101,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 - anime
 - today
 - i love you
-- have you lunch")
+- have you lunch""")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user.first_name or "there"
-    await update.message.reply_text(f"Hey {user}! 👋
-Say 'hi', 'fact', 'anime', 'quote', 'history', or fun stuff like 'I love you'.")
+    await update.message.reply_text(f"""Hey {user}! 👋
+Say 'hi', 'fact', 'anime', 'quote', 'history', or fun stuff like 'I love you'.""")
 
 def main():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
