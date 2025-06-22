@@ -1,10 +1,10 @@
-import os
 import random
 import requests
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+# Hardcoded token (not recommended for public code)
+BOT_TOKEN = "8050769355:AAGdI99KGP-7UTBXa8HKy9od_Nu0Tl1ZYXU"
 
 # API Endpoints
 FACT_API = "https://uselessfacts.jsph.pl/random.json?language=en"
@@ -13,20 +13,14 @@ QUOTE_API = "https://api.quotable.io/random"
 HISTORY_API = "https://history.muffinlabs.com/date"
 ANIME_API = "https://api.jikan.moe/v4/anime"
 
-# Fun responses
 LOVE_RESPONSES = [
-    "I love you too 💖",
-    "Of course I do 😌",
-    "I'm just a bot, but let's pretend 💌",
-    "Love is in the air 🌸",
-    "Always have, always will 💘"
+    "I love you too 💖", "Of course I do 😌", "I'm just a bot, but let's pretend 💌",
+    "Love is in the air 🌸", "Always have, always will 💘"
 ]
 
 FOOD_RESPONSES = [
-    "I don't eat, but thanks for asking! 🍽️",
-    "I'm a bot, but I imagine pizza would be great right now 🍕",
-    "No lunch, just code and queries 🤖",
-    "Yes! Data soup with an extra byte 😋",
+    "I don't eat, but thanks for asking! 🍽️", "I'm a bot, but pizza sounds nice 🍕",
+    "No lunch, just code 🤖", "Yes! Data soup with an extra byte 😋",
     "Still waiting for my ramen delivery... 🍜"
 ]
 
@@ -48,7 +42,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             r = requests.get(FACT_API).json()
             await update.message.reply_text(f"🧠 Fun Fact: {r.get('text')}")
         except:
-            await update.message.reply_text("Could not fetch a fact at the moment 😔")
+            await update.message.reply_text("Could not fetch a fact 😔")
 
     elif "cat" in text:
         try:
@@ -62,7 +56,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             r = requests.get(QUOTE_API).json()
             await update.message.reply_text(f"📜 “{r.get('content')}” — {r.get('author')}")
         except:
-            await update.message.reply_text("Couldn't fetch a quote right now.")
+            await update.message.reply_text("Couldn't fetch a quote.")
 
     elif "history" in text or "today" in text:
         try:
@@ -109,11 +103,4 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 Say 'hi', 'fact', 'anime', 'quote', 'history', or fun stuff like 'I love you'.""")
 
 def main():
-    app = ApplicationBuilder().token(BOT_TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message))
-    print("Bot is running...")
-    app.run_polling()
-
-if __name__ == '__main__':
-    main()
+    app = ApplicationBuilder().token(BOT_TOKEN).build(_
