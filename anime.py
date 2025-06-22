@@ -4,7 +4,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
 
 # WARNING: Do NOT share your bot token publicly
-BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"  # Replace with your actual bot token
+BOT_TOKEN = "8050769355:AAGdI99KGP-7UTBXa8HKy9od_Nu0Tl1ZYXU"  # Replace with your actual bot token
 
 # API Endpoints
 FACT_API = "https://uselessfacts.jsph.pl/random.json?language=en"
