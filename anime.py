@@ -3,8 +3,8 @@ import requests
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
 
-# Hardcoded token (not recommended for public code)
-BOT_TOKEN = "8050769355:AAGdI99KGP-7UTBXa8HKy9od_Nu0Tl1ZYXU"
+# WARNING: Do NOT share your bot token publicly
+BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"  # Replace with your actual bot token
 
 # API Endpoints
 FACT_API = "https://uselessfacts.jsph.pl/random.json?language=en"
@@ -103,4 +103,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 Say 'hi', 'fact', 'anime', 'quote', 'history', or fun stuff like 'I love you'.""")
 
 def main():
-    app = ApplicationBuilder().token(BOT_TOKEN).build(_
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message))
+    print("Bot is running...")
+    app.run_polling()
+
+if __name__ == "__main__":
+    main()
