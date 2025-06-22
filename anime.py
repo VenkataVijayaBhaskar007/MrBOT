@@ -61,11 +61,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("No cat facts right now 😿")
 
     elif "quote" in text:
-        try:
-            r = requests.get(QUOTE_API).json()
-            await update.message.reply_text(f"📜 "{r.get('content')}" — {r.get('author')}")
-        except:
-            await update.message.reply_text("Couldn't fetch a quote right now.")
+    try:
+        r = requests.get(QUOTE_API).json()
+        await update.message.reply_text(f"📜 “{r.get('content')}” — {r.get('author')}")
+    except:
+        await update.message.reply_text("Couldn't fetch a quote right now.")
+
 
     elif "history" in text or "today" in text:
         try:
